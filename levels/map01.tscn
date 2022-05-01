@@ -26,4 +26,4 @@ shape = SubResource( 1 )
 position = Vector2( 158, 72 )
 
 [node name="GravPoint" parent="." instance=ExtResource( 3 )]
-position = Vector2( 66, 79 )
+position = Vector2( 269, 105 )

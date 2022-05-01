@@ -13,7 +13,6 @@ export (float) var jumpForce; # heheheh kinda like the game
 var velocity = Vector2.ZERO;
 var spd = 0;
 var magnet = null;
-onready var magnetized = false;
 
 func _ready():
 	pass;
@@ -29,7 +28,7 @@ func _physics_process(delta):
 	# just jumping tingz :zany_face:
 	velocity.y += grav * delta;
 	if magnet != null:
-		velocity = position.direction_to(magnet.position) * (spd/2);
+		velocity = position.direction_to(magnet.position);
 	if is_on_floor():
 		if inputDir == 0:
 			spd = lerp(spd, 0, frict);
