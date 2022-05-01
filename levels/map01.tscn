@@ -23,7 +23,13 @@ __meta__ = {
 shape = SubResource( 1 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 158, 72 )
+position = Vector2( 162, 100 )
 
-[node name="GravPoint" parent="." instance=ExtResource( 3 )]
-position = Vector2( 269, 105 )
+[node name="Magnet2" parent="." instance=ExtResource( 3 )]
+position = Vector2( 290, 46 )
+
+[node name="Magnet3" parent="." instance=ExtResource( 3 )]
+position = Vector2( 171, 30 )
+
+[node name="Magnet" parent="." instance=ExtResource( 3 )]
+position = Vector2( 49, 101 )
