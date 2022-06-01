@@ -13,38 +13,45 @@ export (float) var jumpForce; # heheheh kinda like the game
 var velocity = Vector2.ZERO;
 var magnet = null;
 var spd = 0;
-var isPlayer;
+onready var isPlayer = true;
 
 func _ready():
-	pass;
+	maxSpd *= 1000;
+	grav *= 100;
+	jumpForce *= 1000;
+	$Sprite.play("idle");
 
 func _physics_process(delta):
-	if isPlayer == true:
-		var inputDir = Input.get_action_strength("right") - Input.get_action_strength("left");
-		if magnet != null:
-			velocity = position.direction_to(magnet.position) * (spd * inputDir);
-			if Input.is_action_just_pressed("jump"):
-				magnet = null;
-		else:
-			# sorta complicated-ish, all you need to know is, if (right button) pressed: move to the right
-			# really it could be shorted a shit ton, but i *reallllyyy* wanted the movement to be supa smooth
-			if inputDir != 0:
-				spd = lerp(spd, maxSpd * inputDir, accel);
-				velocity.x = spd * delta;
-			if is_on_floor():
-				if inputDir == 0:
-					spd = lerp(spd, 0, frict);
-					velocity.x = spd * delta;
-				if Input.is_action_just_pressed("jump"):
-					velocity.y = -jumpForce * delta;
-			else:
-				if inputDir == 0:
-					spd = lerp(spd, 0, airRes);
-					velocity.x = spd * delta;
+	var inputDir = Input.get_action_strength("right") - Input.get_action_strength("left");
+	if magnet != null:
+		velocity = position.direction_to(magnet.position) * (spd * inputDir);
+		if Input.is_action_just_pressed("jump") && !Input.is_action_just_pressed("left") && !Input.is_action_just_pressed("right"):
+			magnet = null;
 	else:
-		pass
+		# sorta complicated-ish, all you need to know is, if (right button) pressed: move to the right
+		# really it could be shorted a shit ton, but i *reallllyyy* wanted the movement to be supa smooth
+		if inputDir != 0:
+			spd = lerp(spd, maxSpd * inputDir, accel);
+			velocity.x = spd * delta;
+			$Sprite.play("run");
+			$Sprite.flip_h = velocity.x > 0;
+		if is_on_floor():
+			if inputDir == 0:
+				spd = lerp(spd, 0, frict);
+				velocity.x = spd * delta;
+				$Sprite.play("idle");
+			if Input.is_action_just_pressed("jump"):
+				velocity.y = -jumpForce * delta;
+		else:
+			if inputDir == 0:
+				spd = lerp(spd, 0, airRes);
+				velocity.x = spd * delta;
+			if velocity.y < 0:
+				$Sprite.play("jump");
+			elif velocity.y > 0:
+				$Sprite.play("fall");
+		velocity.y += grav * delta;
 	
-	velocity.y += grav * delta;
 	velocity = move_and_slide(velocity, Vector2.UP); # DO NOT TOUCH THIS NOBODY WILL EVER TOUCH THIS 
 	#LINE OF CODE IS HOLDING EVERYTHING TOGETHER IF YOU DELETE IT LITTERALLY EVERYTHING WILL BREAK AND 
 	#YOUR FAMILY WILL BURN AND DIE AND YOURBONES WILL DEFLATE AND YOU DOG WILL DIE AND GOD WILL SMITE 
