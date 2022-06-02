@@ -465,7 +465,7 @@ region_enabled = true
 region_rect = Rect2( 96, 116, 16, 12 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( -99, -128 )
+position = Vector2( -99, -880 )
 maxSpd = 6.0
 grav = 7.0
 jumpForce = 16.0

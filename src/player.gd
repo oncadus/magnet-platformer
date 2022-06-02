@@ -40,16 +40,12 @@ func _physics_process(delta):
 			$Sprite.flip_h = velocity.x > 0;
 		if is_on_floor():
 			canJump = true;
-			pass;
 			if inputDir == 0:
 				spd = lerp(spd, 0, frict);
 				velocity.x = spd * delta;
 				$Sprite.play("idle");
-			if Input.is_action_just_pressed("jump"):
-				if canJump == true:
-					velocity.y = -jumpForce * delta;
-					canJump = false;
 		else:
+			jumpPause();
 			if inputDir == 0:
 				spd = lerp(spd, 0, airRes);
 				velocity.x = spd * delta;
@@ -57,6 +53,10 @@ func _physics_process(delta):
 				$Sprite.play("jump");
 			elif velocity.y > 0:
 				$Sprite.play("fall");
+		if Input.is_action_just_pressed("jump"):
+			if canJump == true:
+				velocity.y = -jumpForce * delta;
+		
 		velocity.y += grav * delta;
 	
 	velocity = move_and_slide(velocity, Vector2.UP); # DO NOT TOUCH THIS NOBODY WILL EVER TOUCH THIS 
@@ -69,6 +69,5 @@ func _on_MagnetField_body_entered(body):
 		magnet = body;
 
 func jumpPause():
-	yield(get_tree().create_timer(.1), "timeout");
+	yield(get_tree().create_timer(0.2), "timeout");
 	canJump = false;
-	pass;
