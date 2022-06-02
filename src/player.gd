@@ -22,7 +22,6 @@ func _ready():
 	maxSpd *= 1000;
 	grav *= 100;
 	jumpForce *= 1000;
-	jumpsLeft = jumpAmmount;
 	$Sprite.play("idle");
 
 func _physics_process(delta):
@@ -42,7 +41,7 @@ func _physics_process(delta):
 			$Sprite.flip_h = velocity.x > 0;
 		if is_on_floor():
 			canJump = true;
-			jumpsLeft = jumpAmmount;
+			jumpsLeft = 0;
 			if inputDir == 0:
 				spd = lerp(spd, 0, frict);
 				velocity.x = spd * delta;
@@ -57,10 +56,9 @@ func _physics_process(delta):
 			elif velocity.y > 0:
 				$Sprite.play("fall");
 		if Input.is_action_just_pressed("jump"):
-			if jumpsLeft > 0:
-				if canJump == true:
-					jumpsLeft -= 1;
-					velocity.y = -jumpForce * delta;
+			if canJump == true:
+				jumpsLeft += 1;
+				velocity.y = -jumpForce * delta;
 		
 		velocity.y += grav * delta;
 	
@@ -75,4 +73,4 @@ func _on_MagnetField_body_entered(body):
 
 func jumpPause():
 	yield(get_tree().create_timer(0.2), "timeout");
-	canJump = false;
+	jumpsLeft += 1;
