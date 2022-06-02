@@ -1,5 +1,6 @@
-[gd_scene load_steps=52 format=2]
+[gd_scene load_steps=53 format=2]
 
+[ext_resource path="res://assets/art/aatbio_com_image_export_May_31_2022.png" type="Texture" id=1]
 [ext_resource path="res://player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://gravpoint.tscn" type="PackedScene" id=3]
 [ext_resource path="res://assets/art/tileset.png" type="Texture" id=4]
@@ -455,17 +456,28 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
 [node name="Node2D" type="Node2D"]
 
+[node name="PlayerRef" type="Sprite" parent="."]
+position = Vector2( 81, 325 )
+scale = Vector2( 2.7, 2.7 )
+texture = ExtResource( 1 )
+offset = Vector2( -4, 4 )
+region_enabled = true
+region_rect = Rect2( 96, 116, 16, 12 )
+
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( -99, -127 )
+position = Vector2( -99, -128 )
 maxSpd = 6.0
 grav = 7.0
 jumpForce = 16.0
 
 [node name="Magnet2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 537, -49 )
+position = Vector2( 579, 54 )
+
+[node name="Magnet4" parent="." instance=ExtResource( 3 )]
+position = Vector2( -256, 201 )
 
 [node name="Magnet3" parent="." instance=ExtResource( 3 )]
-position = Vector2( 98, 269 )
+position = Vector2( 130, 217 )
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource( 49 )

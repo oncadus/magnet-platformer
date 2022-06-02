@@ -13,18 +13,21 @@ export (float) var jumpForce; # heheheh kinda like the game
 var velocity = Vector2.ZERO;
 var magnet = null;
 var spd = 0;
+var canJump = false;
 onready var isPlayer = true;
 
 func _ready():
 	maxSpd *= 1000;
 	grav *= 100;
 	jumpForce *= 1000;
+	canJump = true;
 	$Sprite.play("idle");
 
 func _physics_process(delta):
-	var inputDir = Input.get_action_strength("right") - Input.get_action_strength("left");
+	var inputDir = Input.get_axis("left", "right");
 	if magnet != null:
-		velocity = position.direction_to(magnet.position) * (spd * inputDir);
+		# velocity = position.direction_to(magnet.position) * (grav * inputDir);
+		position += (magnet.position - self.position) / 10;
 		if Input.is_action_just_pressed("jump") && !Input.is_action_just_pressed("left") && !Input.is_action_just_pressed("right"):
 			magnet = null;
 	else:
@@ -36,12 +39,16 @@ func _physics_process(delta):
 			$Sprite.play("run");
 			$Sprite.flip_h = velocity.x > 0;
 		if is_on_floor():
+			canJump = true;
+			pass;
 			if inputDir == 0:
 				spd = lerp(spd, 0, frict);
 				velocity.x = spd * delta;
 				$Sprite.play("idle");
 			if Input.is_action_just_pressed("jump"):
-				velocity.y = -jumpForce * delta;
+				if canJump == true:
+					velocity.y = -jumpForce * delta;
+					canJump = false;
 		else:
 			if inputDir == 0:
 				spd = lerp(spd, 0, airRes);
@@ -60,3 +67,8 @@ func _physics_process(delta):
 func _on_MagnetField_body_entered(body):
 	if body.get_filename() == "res://gravpoint.tscn":
 		magnet = body;
+
+func jumpPause():
+	yield(get_tree().create_timer(.1), "timeout");
+	canJump = false;
+	pass;
