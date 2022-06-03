@@ -56,9 +56,10 @@ func _physics_process(delta):
 			elif velocity.y > 0:
 				$Sprite.play("fall");
 		if Input.is_action_just_pressed("jump"):
-			if canJump == true:
-				jumpsLeft += 1;
-				velocity.y = -jumpForce * delta;
+			if jumpsLeft < jumpAmmount:
+				if canJump == true:
+					jumpsLeft += 1;
+					velocity.y = -jumpForce * delta;
 		
 		velocity.y += grav * delta;
 	
