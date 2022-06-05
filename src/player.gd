@@ -59,8 +59,8 @@ func _physics_process(delta):
 			if canJump == true:
 				jumpsLeft += 1;
 				velocity.y = -jumpForce * delta;
-			if jumpsLeft < jumpAmmount:
-				velocity.y = -jumpForce * delta;
+			if jumpsLeft > jumpAmmount:
+				canJump = false;
 		
 		velocity.y += grav * delta;
 	
