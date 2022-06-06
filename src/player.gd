@@ -2,6 +2,8 @@ extends KinematicBody2D
 
 # movement shit
 export (float) var maxSpd;
+export (float) var wallSpd;
+export (float) var wallJump;
 export (float) var grav;
 export (float) var accel;
 export (float) var frict;
@@ -40,10 +42,6 @@ func _physics_process(delta):
 			velocity.x = spd * delta;
 			$Sprite.play("run");
 			$Sprite.flip_h = velocity.x > 0;
-			if velocity.x > 0:
-				$Sprite/RayCast2D.cast_to.y = -50;
-			elif velocity.x < 0:
-				$Sprite/RayCast2D.cast_to.y = 50;
 		if is_on_floor():
 			canJump = true;
 			jumpsLeft = 0;
@@ -64,7 +62,6 @@ func _physics_process(delta):
 			if canJump == true:
 				jumpsLeft += 1;
 				velocity.y = -jumpForce * delta;
-			if jumpsLeft > jumpAmmount:
 				canJump = false;
 		
 		velocity.y += grav * delta;
@@ -74,8 +71,13 @@ func _physics_process(delta):
 	#YOUR FAMILY WILL BURN AND DIE AND YOURBONES WILL DEFLATE AND YOU DOG WILL DIE AND GOD WILL SMITE 
 	# YOU DO NOT DELETE THIS LINE FOR ALL THAT IS HOLY ARK PLS DO NOT DELETE THIS LINE
 	
-	if $Sprite/RayCast2D.is_colliding() and Input.is_action_just_pressed("jump"):
-		pass;
+	if is_on_wall() and inputDir != 0:
+		canJump = true;
+		if velocity.y > 0:
+			velocity.y = lerp(velocity.y, wallSpd, wallFrict);
+		if Input.is_action_just_pressed("jump") and Input.is_action_just_pressed("right"):
+				velocity.x = wallSpd * -1;
+				velocity.y = wallJump;
 
 func _on_MagnetField_body_entered(body):
 	if body.get_filename() == "res://gravpoint.tscn":

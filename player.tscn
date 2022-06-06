@@ -78,6 +78,8 @@ collision_layer = 2
 collision_mask = 15
 script = ExtResource( 2 )
 maxSpd = 9.0
+wallSpd = 18.0
+wallJump = 12.6
 grav = 8.0
 accel = 0.08
 frict = 0.2
@@ -91,12 +93,6 @@ scale = Vector2( 4, 4 )
 frames = SubResource( 13 )
 animation = "fall"
 playing = true
-
-[node name="RayCast2D" type="RayCast2D" parent="Sprite"]
-position = Vector2( 0, 2.49999 )
-rotation = 1.57079
-scale = Vector2( 0.1265, 0.25 )
-enabled = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 10.0637 )
