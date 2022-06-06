@@ -11,8 +11,6 @@ export (float) var wallFrict;
 export (float) var airRes; # air resistance
 export (float) var jumpForce; # heheheh kinda like the game
 export (float) var jumpAmmount;
-# gravit var(s)
-#export (PackedScene) var gravPointScene;
 
 var velocity = Vector2.ZERO;
 var magnet = null;
@@ -62,6 +60,7 @@ func _physics_process(delta):
 			if canJump == true:
 				jumpsLeft += 1;
 				velocity.y = -jumpForce * delta;
+			if jumpsLeft > jumpAmmount:
 				canJump = false;
 		
 		velocity.y += grav * delta;
@@ -70,14 +69,6 @@ func _physics_process(delta):
 	#LINE OF CODE IS HOLDING EVERYTHING TOGETHER IF YOU DELETE IT LITTERALLY EVERYTHING WILL BREAK AND 
 	#YOUR FAMILY WILL BURN AND DIE AND YOURBONES WILL DEFLATE AND YOU DOG WILL DIE AND GOD WILL SMITE 
 	# YOU DO NOT DELETE THIS LINE FOR ALL THAT IS HOLY ARK PLS DO NOT DELETE THIS LINE
-	
-	if is_on_wall() and inputDir != 0:
-		canJump = true;
-		if velocity.y > 0:
-			velocity.y = lerp(velocity.y, wallSpd, wallFrict);
-		if Input.is_action_just_pressed("jump") and Input.is_action_just_pressed("right"):
-				velocity.x = wallSpd * -1;
-				velocity.y = wallJump;
 
 func _on_MagnetField_body_entered(body):
 	if body.get_filename() == "res://gravpoint.tscn":
