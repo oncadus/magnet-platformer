@@ -463,6 +463,7 @@ script = ExtResource( 5 )
 
 [node name="BGM" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource( 6 )
+volume_db = -19.81
 
 [node name="PlayerRef" type="Sprite" parent="."]
 position = Vector2( 85, 319 )
@@ -481,7 +482,7 @@ region_enabled = true
 region_rect = Rect2( 96, 116, 16, 12 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( -450, -809 )
+position = Vector2( 568, 104 )
 jumpAmmount = 3.0
 
 [node name="Magnet2" parent="." instance=ExtResource( 3 )]

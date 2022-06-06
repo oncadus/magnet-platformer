@@ -5,6 +5,7 @@ export (float) var maxSpd;
 export (float) var grav;
 export (float) var accel;
 export (float) var frict;
+export (float) var wallFrict;
 export (float) var airRes; # air resistance
 export (float) var jumpForce; # heheheh kinda like the game
 export (float) var jumpAmmount;
@@ -39,6 +40,10 @@ func _physics_process(delta):
 			velocity.x = spd * delta;
 			$Sprite.play("run");
 			$Sprite.flip_h = velocity.x > 0;
+			if velocity.x > 0:
+				$Sprite/RayCast2D.cast_to.y = -50;
+			elif velocity.x < 0:
+				$Sprite/RayCast2D.cast_to.y = 50;
 		if is_on_floor():
 			canJump = true;
 			jumpsLeft = 0;
@@ -68,6 +73,9 @@ func _physics_process(delta):
 	#LINE OF CODE IS HOLDING EVERYTHING TOGETHER IF YOU DELETE IT LITTERALLY EVERYTHING WILL BREAK AND 
 	#YOUR FAMILY WILL BURN AND DIE AND YOURBONES WILL DEFLATE AND YOU DOG WILL DIE AND GOD WILL SMITE 
 	# YOU DO NOT DELETE THIS LINE FOR ALL THAT IS HOLY ARK PLS DO NOT DELETE THIS LINE
+	
+	if $Sprite/RayCast2D.is_colliding() and Input.is_action_just_pressed("jump"):
+		pass;
 
 func _on_MagnetField_body_entered(body):
 	if body.get_filename() == "res://gravpoint.tscn":
